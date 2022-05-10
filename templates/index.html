@@ -5,7 +5,25 @@
     <title>Demo time</title>
 </head>
 <body>
-    <h1>STOP! Demo time...</h1>
-    <h2>{{ demo_var }}</h2>
+<h1>STOP! Demo time...</h1>
+<h2>{{ demo_var }}</h2>
+
+{% if secrets %}
+<h3>Secrets from {{ secrets_dir }}:</h3>
+<table>
+    <tr>
+        <th>File</th>
+        <th>Contents</th>
+    </tr>
+    {% for key, value in dict_item.items() %}
+        <tr>
+            <td>{{ key }}</td>
+            <td>{{ value }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% else %}
+    <h3>{{ secrets_dir }} doesn't exist or is empty.</h3>
+{% endif %}
 </body>
 </html>
