@@ -1,0 +1,59 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vault-agent-demo
+  labels:
+    app: vault-agent-demo
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vault-agent-demo
+  labels:
+    app: vault-agent-demo
+spec:
+  selector:
+    matchLabels:
+      app: vault-agent-demo
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+
+      # These annotations tell vault-k8s to inject secrets 🙊
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/role: "myapp"
+        vault.hashicorp.com/agent-inject-status: "update"
+
+        vault.hashicorp.com/agent-inject-secret-helloworld: "secret/helloworld"
+        vault.hashicorp.com/agent-inject-template-helloworld: |
+          {{- with secret "secret/helloworld" -}}
+          postgresql://{{ .Data.data.username }}:{{ .Data.data.password }}@postgres:5432/wizard
+          {{- end }}
+
+      labels:
+        app: vault-agent-demo
+    spec:
+      serviceAccountName: vault-agent-demo
+      containers:
+      - name: app
+        image: ghcr.io/ollytheninja/demo:main
+        imagePullPolicy:  Always
+        ports:
+          - containerPort: 5000
+            name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vault-agent-demo
+  labels:
+    app: vault-agent-demo
+spec:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 5000
+      targetPort: http
