@@ -2,10 +2,10 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-COPY requirements.txt /app
+COPY src/requirements.txt .
 RUN pip install -r requirements.txt
 
-COPY . /app
+COPY src/ .
 
 ENTRYPOINT ["python"]
 CMD ["app.py"]
