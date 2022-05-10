@@ -1,4 +1,3 @@
-# Special thanks to https://codefresh.io/docker-tutorial/hello-whale-getting-started-docker-flask/ for the code
 from pathlib import Path
 from random import Random
 
