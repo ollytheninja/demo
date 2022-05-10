@@ -21,7 +21,7 @@ jobs:
         pip install pip-tools
     - name: Update Dependencies
       run: |
-        cd exhibit
+        cd src
         pip-compile
     - name: Commit files
       run: |
