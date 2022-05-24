@@ -27,7 +27,12 @@ jobs:
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git diff-index --quiet HEAD || ( git commit -a -m'[bot] update dependencies' --allow-empty && git push -f origin main:pip-deps )
+        if [ ! $(git diff-index --quiet HEAD) ]
+        then
+          git checkout -B pip-deps
+          git commit -a -m'[bot] update dependencies' --allow-empty 
+          git push -u origin pip-deps
+        fi
 
     - name: Create PR
       uses: devops-infra/action-pull-request@v0.4.2
