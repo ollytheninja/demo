@@ -1,6 +1,6 @@
 # Not pinning patch version so Renovate will update minor versions too
 # https://docs.renovatebot.com/modules/versioning/#docker-versioning
-FROM python:3.10-alpine@sha256:97725c6081f5670080322188827ef5cd95325b8c69e401047f0fa0c21910042d
+FROM python:3.10-alpine@sha256:01126f0a13659e9365ea058078ccfb057155b205f4fba630845552b7e2a72e9e
 
 WORKDIR /app
 
